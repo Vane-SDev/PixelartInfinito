@@ -1,0 +1,23 @@
+/* src/components/Pixel.module.css */
+.pixel {
+    width: 12px;   /* Probá con 12px, o incluso 10px o 8px si querés MÁS detalle */
+    height: 12px;
+    background-color: var(--pixel-off-color);
+    border: 1px solid #e0e0e0; /* Borde muy sutil o 'border: none;' */
+    /* Si usas 'border: none;', asegúrate que el 'gap' en PixelGrid.module.css sea visible */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.05s ease;
+  }
+  
+  .pixel.filled {
+    background-color: var(--pixel-on-color);
+    border-color: var(--primary-color); 
+  }
+  
+  .pixel:focus {
+    outline: 1.5px solid var(--secondary-color);
+    outline-offset: 0px;
+  }

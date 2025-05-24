@@ -1,0 +1,121 @@
+.exportContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.exportButton {
+    background-color: #5A1876;
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(90, 24, 118, 0.2);
+    min-width: 250px;
+}
+
+.exportButton:hover:not(:disabled) {
+    background-color: #7B2B99;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(90, 24, 118, 0.3);
+}
+
+.exportButton:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(90, 24, 118, 0.2);
+}
+
+.exportButton:disabled {
+    background-color: #9D7BA7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.processing {
+    position: relative;
+    overflow: hidden;
+}
+
+.processing::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(50%);
+    }
+}
+
+.statsMessage {
+    background-color: #F7F9FC;
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    max-width: 400px;
+    box-shadow: 0 2px 4px rgba(90, 24, 118, 0.1);
+    border: 1px solid rgba(90, 24, 118, 0.1);
+}
+
+.statsMessage p {
+    margin: 0.5rem 0;
+    color: #2C3E50;
+}
+
+.statsMessage p:first-child {
+    font-weight: bold;
+    color: #5A1876;
+    font-size: 1.1rem;
+}
+
+.fadeIn {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .exportButton {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        min-width: 200px;
+    }
+
+    .statsMessage {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .statsMessage p:first-child {
+        font-size: 1rem;
+    }
+} 

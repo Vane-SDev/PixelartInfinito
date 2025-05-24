@@ -1,0 +1,65 @@
+/* src/index.css */
+:root {
+  --primary-color: #28292a; /* Un azul oscuro/grisáceo */
+  --secondary-color: #56126E; /* Un azul brillante */
+  --accent-color: #e74c3c; /* Un rojo/coral para acentos */
+  --light-bg: #ecf0f1; /* Un fondo gris claro */
+  --pixel-off-color: #bdc3c7; /* Gris para pixel apagado */
+  --pixel-on-color: var(--primary-color); /* Color para pixel encendido */
+  --text-color: #333;
+  --border-radius: 5px;
+  --border-color:var(--primary-color)
+  --grid-gap: 2px;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--light-bg);
+  color: var(--text-color);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+#root {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+h1 {
+  color: var(--primary-color);
+}
+
+button {
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: var(--secondary-color); /* Un azul un poco más oscuro */
+  color:#ffffff;
+  border-radius: var(--border-radius);
+  border:solid 2px #56126E ;
+}
+
+input[type="text"] {
+  padding: 10px;
+  border: 1px solid #440c7b;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
