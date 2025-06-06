@@ -9,7 +9,12 @@ import './index.css';
 
 function App() {
   const [username, setUsername] = useState('');
+  const [hasPixelsColored, setHasPixelsColored] = useState(false);
   const GRID_ELEMENT_ID = "pixelArtGridToCapture";
+
+  const handlePixelsColoredChange = (hasColored) => {
+    setHasPixelsColored(hasColored);
+  };
 
   return (
     <div className="App">
@@ -21,19 +26,26 @@ function App() {
           <div className="title-container">
             <h1>PixelArt Emoji Infinito</h1>
             <p>¡Diseñá tu propio emoji de 16x16 píxeles y compartilo!</p>
-            <p>Hacé clic en los cuadraditos para encenderlos (⚫) o apagarlos (⚪).</p>
+            <p>Hacé clic en los cuadraditos de colores para encenderlos o apagarlos 😉.</p>
           </div>
         </div>
       </header>
 
       <main>
-        <PixelGrid gridId={GRID_ELEMENT_ID} />
+        <PixelGrid 
+          gridId={GRID_ELEMENT_ID} 
+          onPixelsColoredChange={handlePixelsColoredChange}
+        />
         <UserInput
           value={username}
           onChange={setUsername}
           placeholder="@TuInstagram"
         />
-        <ExportButton elementIdToCapture={GRID_ELEMENT_ID} username={username} />
+        <ExportButton 
+          elementIdToCapture={GRID_ELEMENT_ID} 
+          username={username}
+          hasPixelsColored={hasPixelsColored}
+        />
       </main>
 
       <footer>

@@ -2,7 +2,7 @@
 import React from 'react';
 import styles from './Pixel.module.css';
 
-const Pixel = ({ isFilled, onClick, onKeyDown }) => {
+const Pixel = ({ color, onClick, onKeyDown }) => {
     const handleClick = () => {
         onClick();
     };
@@ -20,11 +20,12 @@ const Pixel = ({ isFilled, onClick, onKeyDown }) => {
 
     return (
         <div
-            className={`${styles.pixel} ${isFilled ? styles.filled : ''}`}
+            className={styles.pixel}
             onClick={handleClick}
             onKeyDown={handleKeyDown} // Manejador para teclado
             role="button" // Semántica para accesibilidad
-            aria-pressed={isFilled} // Estado para lectores de pantalla
+            style={{ backgroundColor: color }}
+            aria-label={`Pixel de color ${color}`}
             tabIndex={0} // Hace que el div sea enfocable
         />
     );

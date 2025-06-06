@@ -1,0 +1,268 @@
+/* src/components/PixelGrid.module.css */
+:root {
+    --primary-color: #5A1876;    /* Color principal de la marca */
+    --secondary-color: #7B2B99;  /* Versión más clara del color principal */
+    --accent-color: #4A1461;     /* Versión más oscura del color principal */
+    --text-color: #2C3E50;       /* Color de texto principal */
+    --background-color: #F7F9FC; /* Color de fondo */
+}
+
+.gridWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.logoContainer {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.clearButton {
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.clearButton:hover {
+    background-color: var(--primary-color-dark);
+}
+
+.colorPalette {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.colorButton {
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.colorButton:hover {
+    transform: scale(1.1);
+}
+
+.colorButton.selected {
+    border-color: var(--primary-color);
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+.gridContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.grid {
+    display: grid;
+    gap: 1px;
+    border: 2px solid var(--primary-color);
+    padding: 2px;
+    background-color: white;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.binaryCodeDisplay {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 1rem;
+    padding: 1.5rem;
+    background-color: white;
+    border-radius: 12px;
+    font-family: "Courier New", Courier, monospace;
+    box-sizing: border-box;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.binaryCodeDisplay h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    text-align: center;
+    color: var(--text-color);
+}
+
+.binaryRows {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    padding-right: 0.5rem;
+}
+
+.binaryRows p {
+    margin: 0.25rem 0;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    word-break: break-all;
+    color: var(--text-color);
+}
+
+.totalBinary {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.totalBinary h4 {
+    margin: 0.5rem 0;
+    font-size: 0.875rem;
+    color: var(--text-color);
+    text-align: center;
+}
+
+.binaryValue {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    background-color: var(--background-color);
+    padding: 0.75rem;
+    border-radius: 8px;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    margin: 0.25rem 0 1rem 0;
+    text-align: center;
+    letter-spacing: 0.1em;
+    color: var(--text-color);
+}
+
+.decimalValue {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.875rem;
+    color: var(--primary-color);
+    text-align: center;
+    margin: 0.25rem 0 1rem 0;
+    font-weight: bold;
+    padding: 0.5rem;
+    overflow-wrap: break-word;
+    word-break: break-all;
+}
+
+.bitCount {
+    margin: 0;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--text-color);
+    border-top: 1px solid #eee;
+    padding-top: 0.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .clearButton {
+        transition: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid {
+        transform: scale(0.9);
+        transform-origin: center center;
+    }
+
+    .logoContainer {
+        width: 50px;
+        height: 50px;
+        top: 0.75rem;
+        right: 0.75rem;
+    }
+
+    .binaryCodeDisplay {
+        padding: 1rem;
+    }
+
+    .clearButton {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .colorButton {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .gridWrapper {
+        padding: 0.5rem;
+    }
+
+    .logoContainer {
+        width: 40px;
+        height: 40px;
+        top: 0.5rem;
+        right: 0.5rem;
+        padding: 6px;
+    }
+
+    .binaryCodeDisplay {
+        padding: 0.75rem;
+    }
+
+    .binaryValue {
+        font-size: 0.7rem;
+        padding: 0.25rem;
+        letter-spacing: 0.05em;
+    }
+
+    .decimalValue {
+        font-size: 0.8rem;
+        padding: 0.25rem;
+    }
+
+    .totalBinary h4 {
+        font-size: 0.8rem;
+    }
+
+    .clearButton {
+        padding: 0.4rem 1rem;
+        font-size: 0.9rem;
+    }
+} 

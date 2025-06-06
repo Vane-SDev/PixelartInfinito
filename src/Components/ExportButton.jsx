@@ -5,12 +5,12 @@ import { saveUser, getUserStats } from '../services/userStorage';
 import styles from './ExportButton.module.css';
 
 // No se usan estilos de módulo aquí, usa los globales de index.css
-const ExportButton = ({ elementIdToCapture, username }) => {
+const ExportButton = ({ elementIdToCapture, username, hasPixelsColored }) => {
     const [stats, setStats] = useState(null);
     const [isProcessing, setIsProcessing] = useState(false);
 
     const handleExport = async () => {
-        if (isProcessing) return;
+        if (isProcessing || !hasPixelsColored) return;
         setIsProcessing(true);
 
         const element = document.getElementById(elementIdToCapture);
@@ -55,7 +55,7 @@ const ExportButton = ({ elementIdToCapture, username }) => {
             <button 
                 onClick={handleExport} 
                 className={`${styles.exportButton} ${isProcessing ? styles.processing : ''}`}
-                disabled={isProcessing}
+                disabled={isProcessing || !hasPixelsColored}
             >
                 {isProcessing ? 'Procesando...' : '¡Crear y Descargar mi Emoji!'}
             </button>

@@ -11,13 +11,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 1rem;
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
-    padding: 1rem;
-    box-sizing: border-box;
-    background-color: var(--background-color);
-    position: relative;
 }
 
 .logoContainer {
@@ -44,32 +41,89 @@
 }
 
 .controls {
-    width: 100%;
     display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: center;
     justify-content: center;
-    margin: 3rem 0 1rem;
 }
 
 .clearButton {
-    padding: 0.5rem 1.5rem;
-    background-color: var(--primary-color);
+    padding: 0.5rem 1rem;
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.2s, transform 0.1s;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease;
+    font-size: 0.9rem;
+    line-height: 1.2;
+    height: 36px;
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-family: inherit;
+    background-color: var(--primary-color);
 }
 
 .clearButton:hover {
     background-color: var(--secondary-color);
-    transform: translateY(-1px);
 }
 
-.clearButton:active {
-    background-color: var(--accent-color);
-    transform: translateY(0);
+.clearButton:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+
+
+
+
+.colorPalette {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.colorButton {
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+    position: relative;
+}
+
+/* Estilo especial para el botón borrador (blanco) */
+.colorButton[title="Borrador"] {
+    background-image: linear-gradient(45deg, #f0f0f0 25%, transparent 25%),
+    linear-gradient(-45deg, #f0f0f0 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #f0f0f0 75%),
+    linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+    background-size: 10px 10px;
+    background-position: 0 0, 0 5px, 5px -5px, -5px 0px;
+    border: 2px solid #ccc;
+}
+
+/* Estilo especial para el botón negro */
+.colorButton[title="Negro"] {
+    border-color: #666;
+}
+
+.colorButton:hover {
+    border-color: var(--primary-color);
+}
+
+.colorButton.selected {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color);
 }
 
 .gridContainer {
@@ -178,6 +232,92 @@
     padding-top: 0.5rem;
 }
 
+.binaryExplanation {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.binaryExplanation p {
+    margin: 0 0 1rem 0;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    text-align: center;
+}
+
+.colorExplanation {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.colorInfo {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: white;
+    border-radius: 6px;
+    border: 1px solid #eee;
+    transition: background-color 0.2s ease;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.colorInfo:hover {
+    background-color: #f8f9fa;
+    border-color: var(--primary-color);
+}
+
+.colorSample {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    flex-shrink: 0;
+    transition: border-color 0.2s ease;
+}
+
+.colorInfo:hover .colorSample {
+    border-color: var(--primary-color);
+}
+
+.colorDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.colorName {
+    color: var(--text-color);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.colorInfo:hover .colorName {
+    color: var(--primary-color);
+}
+
+code {
+    background-color: #f1f1f1;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.85rem;
+    color: var(--primary-color);
+    transition: background-color 0.2s ease;
+}
+
+.colorInfo:hover code {
+    background-color: rgba(90, 24, 118, 0.1);
+}
+
 @media (prefers-reduced-motion: reduce) {
     .clearButton {
         transition: none;
@@ -199,6 +339,19 @@
 
     .binaryCodeDisplay {
         padding: 1rem;
+    }
+
+    .clearButton,
+    .createButton {
+        height: 30px;
+        font-size: 0.8rem;
+        padding: 0.35rem 0.7rem;
+        min-width: 80px;
+    }
+
+    .colorButton {
+        width: 1.5rem;
+        height: 1.5rem;
     }
 }
 
@@ -234,8 +387,510 @@
         font-size: 0.8rem;
     }
 
-    .clearButton {
+    .clearButton,
+    .createButton {
         padding: 0.4rem 1rem;
         font-size: 0.9rem;
+    }
+}
+
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+    min-height: 32px;
+}
+
+.sectionHeader h3,
+.sectionHeader h4 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    line-height: 1.2;
+}
+
+.helpButton {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+
+.helpIcon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+    line-height: 1;
+}
+
+.helpButton:hover .helpIcon {
+    background-color: var(--secondary-color);
+}
+
+.colorInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.colorName {
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.binaryRowsScroll {
+    max-height: 250px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+
+.binaryRowsScroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.binaryRowsScroll::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 3px;
+}
+
+.binaryRowsScroll::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 3px;
+}
+
+.summaryItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border-bottom: 1px solid #eee;
+    margin: 0;
+}
+
+.summaryItem:last-child {
+    border-bottom: none;
+}
+
+.summaryItem span:first-child {
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.summaryItem span:last-child {
+    font-family: "Courier New", Courier, monospace;
+    color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .colorExplanation {
+        gap: 0.5rem;
+    }
+
+    .colorInfo {
+        padding: 0.4rem;
+    }
+
+    .colorSample {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    .colorName {
+        font-size: 0.85rem;
+    }
+
+    code {
+        font-size: 0.8rem;
+        padding: 0.15rem 0.3rem;
+    }
+
+    .clearButton,
+    .createButton {
+        height: 32px;
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem;
+        min-width: 90px;
+    }
+
+    .colorButton {
+        width: 1.75rem;
+        height: 1.75rem;
+    }
+
+    .helpIcon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .sectionHeader {
+        min-height: 28px;
+    }
+
+    .controls {
+        gap: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .binaryExplanation {
+        padding: 0.75rem;
+    }
+
+    .binaryExplanation p {
+        font-size: 0.85rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .colorExplanation {
+        gap: 0.4rem;
+    }
+
+    .colorInfo {
+        padding: 0.35rem;
+        gap: 0.35rem;
+    }
+
+    .colorSample {
+        width: 1.1rem;
+        height: 1.1rem;
+    }
+
+    .colorName {
+        font-size: 0.8rem;
+    }
+
+    code {
+        font-size: 0.75rem;
+        padding: 0.1rem 0.25rem;
+    }
+
+    .clearButton,
+    .createButton {
+        height: 30px;
+        font-size: 0.8rem;
+        padding: 0.35rem 0.7rem;
+        min-width: 80px;
+    }
+
+    .colorButton {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    .helpIcon {
+        width: 16px;
+        height: 16px;
+        font-size: 0.75rem;
+    }
+
+    .sectionHeader {
+        min-height: 26px;
+    }
+
+    .controls {
+        gap: 0.5rem;
+    }
+}
+
+.binarySection {
+    margin-bottom: 2rem;
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.binarySection:last-child {
+    margin-bottom: 0;
+}
+
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+}
+
+.sectionHeader h3,
+.sectionHeader h4 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+.helpButton {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.helpButton:hover {
+    transform: scale(1.1);
+}
+
+.helpIcon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.helpButton:hover .helpIcon {
+    background-color: var(--secondary-color);
+}
+
+.colorInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.colorInfo:hover {
+    background-color: #f0f0f0;
+}
+
+.colorName {
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.binaryRowContainer {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+    padding: 0.25rem;
+    border-radius: 4px;
+    max-width: 100%;
+}
+
+.binaryRowNumber {
+    flex-shrink: 0;
+    width: 2.5rem;
+    font-size: 0.75rem;
+    color: var(--primary-color);
+    margin: 0;
+    padding: 0.25rem;
+    font-weight: 500;
+    text-align: right;
+}
+
+.binaryRowContent {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr); /* 16 píxeles divididos en 2 filas */
+    gap: 0.25rem;
+    flex: 1;
+    max-width: calc(100% - 3rem);
+}
+
+.binaryGroup {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-family: "Courier New", Courier, monospace;
+    border: 1px solid #eee;
+    transition: all 0.2s ease;
+    text-align: center;
+    min-width: 2.5rem;
+    height: 1.5rem;
+    background-color: white;
+}
+
+.binaryGroup:hover {
+    transform: scale(1.05);
+    border-color: var(--primary-color);
+}
+
+.bitSummary {
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.summaryItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #eee;
+    margin: 0;
+    transition: background-color 0.2s ease;
+}
+
+.summaryItem:hover {
+    background-color: #f0f0f0;
+}
+
+.summaryItem:last-child {
+    border-bottom: none;
+}
+
+.summaryItem span:first-child {
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.summaryItem span:last-child {
+    font-family: "Courier New", Courier, monospace;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .binarySection {
+        padding: 0.75rem;
+    }
+
+    .colorExplanation {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 0.5rem;
+    }
+
+    .binaryRowContent {
+        grid-template-columns: repeat(8, 1fr);
+        gap: 0.2rem;
+    }
+
+    .binaryGroup {
+        font-size: 0.7rem;
+        min-width: 2.25rem;
+        height: 1.3rem;
+        padding: 0.2rem;
+    }
+
+    .binaryRowNumber {
+        width: 2.25rem;
+        font-size: 0.7rem;
+    }
+
+    .summaryItem {
+        padding: 0.5rem 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .binarySection {
+        padding: 0.5rem;
+    }
+
+    .sectionHeader {
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+
+    .colorInfo {
+        padding: 0.25rem;
+    }
+
+    .binaryRowNumber {
+        width: 2rem;
+        font-size: 0.65rem;
+        padding: 0.15rem;
+    }
+
+    .binaryGroup {
+        font-size: 0.65rem;
+        min-width: 2rem;
+        height: 1.2rem;
+        padding: 0.15rem;
+    }
+
+    .summaryItem {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+}
+
+.downloadButton {
+    padding: 1rem 2rem;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.2;
+    height: auto;
+    min-width: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-family: inherit;
+    background-color: var(--primary-color);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 1rem auto;
+}
+
+.downloadButton:hover {
+    background-color: var(--secondary-color);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.downloadButton:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.8;
+    box-shadow: none;
+}
+
+@media (max-width: 768px) {
+    .downloadButton {
+        padding: 0.875rem 1.75rem;
+        font-size: 1.1rem;
+        min-width: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .downloadButton {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        min-width: 220px;
     }
 }

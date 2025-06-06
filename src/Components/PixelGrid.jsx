@@ -1,26 +1,48 @@
 // src/components/PixelGrid.jsx
-import React, { useState, useEffect } from 'react'; // Eliminé useRef si no se usa para navegación de teclado avanzada
+import React, { useState, useEffect } from 'react';
 import Pixel from './Pixel';
 import styles from './PixelGrid.module.css';
 
-const GRID_SIZE = 16; // 
+const GRID_SIZE = 16;
 
-const PixelGrid = ({ gridId }) => {
-    // 1. VERIFICA ESTA INICIALIZACIÓN
-    const initialGrid = () => Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill(0));
+// Definición de colores y sus valores binarios (ahora usando 3 bits)
+const COLORS = {
+    WHITE: '000',    // Color apagado por defecto
+    BLACK: '001',    // Negro como opción básica
+    CELESTE: '010',  // Celeste
+    YELLOW: '011',   // Amarillo
+    PURPLE: '100'    // Morado
+};
+
+const COLOR_VALUES = {
+    '000': { name: 'Borrador', hex: '#FFFFFF' },
+    '001': { name: 'Negro', hex: '#000000' },
+    '010': { name: 'Celeste', hex: '#7EC8E3' },
+    '011': { name: 'Amarillo', hex: '#FFE156' },
+    '100': { name: 'Morado', hex: '#9B5DE5' }
+};
+
+const WHATSAPP_NUMBER = '+5491123456789'; // Reemplaza con tu número real
+
+const PixelGrid = ({ gridId, onPixelsColoredChange }) => {
+    const initialGrid = () => Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill(COLORS.WHITE));
     const [grid, setGrid] = useState(initialGrid);
-
-    // 2. VERIFICA QUE EL ESTADO INICIAL DE BINARYROWS TAMBIÉN USE GRID_SIZE = 16
-    const [binaryRows, setBinaryRows] = useState(Array(GRID_SIZE).fill("0".repeat(GRID_SIZE)));
-    const [totalBinary, setTotalBinary] = useState("");
+    const [currentColor, setCurrentColor] = useState(COLORS.BLACK);
+    const [binaryRows, setBinaryRows] = useState(Array(GRID_SIZE).fill("0".repeat(GRID_SIZE * 3)));
     const [decimalValue, setDecimalValue] = useState("0");
+
+    const hasPixelsColored = grid.some(row => row.some(pixel => pixel !== COLORS.WHITE));
 
     const handlePixelClick = (rowIndex, colIndex) => {
         setGrid(prevGrid => {
             const newGrid = prevGrid.map(row => [...row]);
-            newGrid[rowIndex][colIndex] = newGrid[rowIndex][colIndex] === 0 ? 1 : 0;
+            newGrid[rowIndex][colIndex] = newGrid[rowIndex][colIndex] === currentColor ? COLORS.WHITE : currentColor;
             return newGrid;
         });
+    };
+
+    const handleColorSelect = (color) => {
+        setCurrentColor(color);
     };
 
     const handleClearGrid = () => {
@@ -29,8 +51,13 @@ const PixelGrid = ({ gridId }) => {
 
     const calculateBinaryAndDecimal = (rows) => {
         const binaryString = rows.join('');
-        const decimal = BigInt(`0b${binaryString}`).toString();
-        return { binaryString, decimal };
+        try {
+            const decimal = BigInt(`0b${binaryString}`).toString();
+            return { binaryString, decimal };
+        } catch (error) {
+            console.error('Error al calcular el valor decimal:', error);
+            return { binaryString, decimal: '0' };
+        }
     };
 
     const formatDecimalValue = (value) => {
@@ -41,20 +68,94 @@ const PixelGrid = ({ gridId }) => {
     };
 
     useEffect(() => {
-        // Esta parte debería funcionar bien si 'grid' es 16x16
         const newBinaryRows = grid.map(row => row.join(''));
         setBinaryRows(newBinaryRows);
         
-        const { binaryString, decimal } = calculateBinaryAndDecimal(newBinaryRows);
-        setTotalBinary(binaryString);
+        const { decimal } = calculateBinaryAndDecimal(newBinaryRows);
         setDecimalValue(decimal);
     }, [grid]);
 
-    const formatBinaryWithSpaces = (binary) => {
-        return binary.match(/.{1,8}/g)?.join(' ') || binary;
-    };
+    useEffect(() => {
+        if (onPixelsColoredChange) {
+            onPixelsColoredChange(hasPixelsColored);
+        }
+    }, [hasPixelsColored, onPixelsColoredChange]);
 
-    // ... el resto del código (handlePixelClick, etc.) ...
+    const HelpButton = ({ topic }) => (
+        <button 
+            className={styles.helpButton}
+            onClick={() => handleHelpClick(topic)}
+            title="¿Necesitas ayuda? ¡Preguntame!"
+            type="button"
+        >
+            <span className={styles.helpIcon}>?</span>
+        </button>
+    );
+
+    const BinarySection = ({ title, topic, children }) => (
+        <div className={styles.binarySection}>
+            <div className={styles.sectionHeader}>
+                <h4>{title}</h4>
+                <HelpButton topic={topic} />
+            </div>
+            {children}
+        </div>
+    );
+
+    const BinaryRows = ({ binaryRows }) => (
+        <div className={styles.binaryRowsScroll}>
+            {binaryRows.map((binaryRow, index) => {
+                const colorGroups = binaryRow.match(/.{3}/g) || [];
+                return (
+                    <div key={index} className={styles.binaryRowContainer}>
+                        <span className={styles.binaryRowNumber}>{index + 1}:</span>
+                        <div className={styles.binaryRowContent}>
+                            {colorGroups.map((bits, bitIndex) => (
+                                <span 
+                                    key={bitIndex}
+                                    className={styles.binaryGroup}
+                                    style={{
+                                        backgroundColor: bits === COLORS.WHITE ? 'white' : 'rgba(90, 24, 118, 0.05)',
+                                        borderColor: bits === COLORS.WHITE ? '#eee' : 'rgba(90, 24, 118, 0.2)'
+                                    }}
+                                    title={`${COLOR_VALUES[bits]?.name} (${bits})`}
+                                >
+                                    {bits}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                );
+            })}
+        </div>
+    );
+
+    const ColorExplanation = () => (
+        <div className={styles.binaryExplanation}>
+            <p>Cada color está representado por 3 dígitos binarios (bits):</p>
+            <ul className={styles.colorExplanation}>
+                {Object.entries(COLORS).map(([, value]) => (
+                    <li key={value}>
+                        <div className={styles.colorInfo}>
+                            <span 
+                                className={styles.colorSample} 
+                                style={{ backgroundColor: COLOR_VALUES[value].hex }}
+                            />
+                            <div className={styles.colorDetails}>
+                                <code>{value}</code>
+                                <span className={styles.colorName}>{COLOR_VALUES[value].name}</span>
+                            </div>
+                        </div>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+
+    const handleHelpClick = (topic) => {
+        const message = encodeURIComponent(`¡Hola! Me gustaría que me expliques más sobre ${topic} en el PixelArt Emoji 🎨`);
+        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
+    };
 
     return (
         <div className={styles.gridWrapper}>
@@ -63,25 +164,38 @@ const PixelGrid = ({ gridId }) => {
                     onClick={handleClearGrid}
                     className={styles.clearButton}
                     aria-label="Limpiar grid"
+                    type="button"
                 >
                     Limpiar Grid
                 </button>
             </div>
 
+            <div className={styles.colorPalette}>
+                {Object.entries(COLORS).map(([, colorValue]) => (
+                    <button
+                        key={colorValue}
+                        onClick={() => handleColorSelect(colorValue)}
+                        className={`${styles.colorButton} ${currentColor === colorValue ? styles.selected : ''}`}
+                        style={{ backgroundColor: COLOR_VALUES[colorValue].hex }}
+                        aria-label={`Seleccionar color ${COLOR_VALUES[colorValue].name}`}
+                        title={COLOR_VALUES[colorValue].name}
+                        type="button"
+                    />
+                ))}
+            </div>
+
             <div id={gridId} className={styles.gridContainer}>
                 <div
                     className={styles.grid}
-                    // 3. ESTO DEBERÍA CREAR 16 COLUMNAS
                     style={{ gridTemplateColumns: `repeat(${GRID_SIZE}, auto)` }}
                     role="grid"
                     aria-label={`Grilla para dibujar emoji ${GRID_SIZE}x${GRID_SIZE}`}
                 >
-                    {/* 4. SI 'grid' ES 16x16, ESTO DEBERÍA RENDERIZAR 256 PÍXELES */}
                     {grid.map((row, rowIndex) =>
                         row.map((cell, colIndex) => (
                             <Pixel
                                 key={`${rowIndex}-${colIndex}`}
-                                isFilled={cell === 1}
+                                color={COLOR_VALUES[cell].hex}
                                 onClick={() => handlePixelClick(rowIndex, colIndex)}
                             />
                         ))
@@ -90,22 +204,34 @@ const PixelGrid = ({ gridId }) => {
             </div>
 
             <div className={styles.binaryCodeDisplay}>
-                <h3>Código Binario de tu Emoji (por fila):</h3>
-                <div className={styles.binaryRows}>
-                    {/* 5. SI 'binaryRows' TIENE 16 FILAS DE 16 BITS, ESTO SE MOSTRARÁ CORRECTAMENTE */}
-                    {binaryRows.map((binaryRow, index) => (
-                        <p key={index}>Fila {index + 1}: {binaryRow}</p>
-                    ))}
-                </div>
-                <div className={styles.totalBinary}>
-                    <h4>Número Binario Total:</h4>
-                    <p className={styles.binaryValue}>{formatBinaryWithSpaces(totalBinary)}</p>
-                    <h4>Valor Decimal:</h4>
-                    <p className={styles.decimalValue}>{formatDecimalValue(decimalValue)}</p>
-                </div>
-                <p className={styles.bitCount}>
-                    Total Bits: {GRID_SIZE * GRID_SIZE} ({grid.flat().filter(bit => bit === 1).length} encendidos)
-                </p>
+                <BinarySection title="Representación Binaria del Emoji" topic="la representación binaria">
+                    <ColorExplanation />
+                </BinarySection>
+
+                <BinarySection title="Código por filas" topic="el código por filas">
+                    <BinaryRows binaryRows={binaryRows} />
+                </BinarySection>
+
+                <BinarySection title="Resumen" topic="el resumen y los cálculos">
+                    <div className={styles.bitSummary}>
+                        <p className={styles.summaryItem}>
+                            <span>Total de bits:</span> 
+                            <span>{GRID_SIZE * GRID_SIZE * 3} bits</span>
+                        </p>
+                        <p className={styles.summaryItem}>
+                            <span>Píxeles coloreados:</span> 
+                            <span>{grid.flat().filter(bit => bit !== COLORS.WHITE).length} de {GRID_SIZE * GRID_SIZE}</span>
+                        </p>
+                        <p className={styles.summaryItem}>
+                            <span>Bits por píxel:</span> 
+                            <span>3 bits</span>
+                        </p>
+                        <p className={styles.summaryItem}>
+                            <span>Valor decimal:</span>
+                            <span>{formatDecimalValue(decimalValue)}</span>
+                        </p>
+                    </div>
+                </BinarySection>
             </div>
         </div>
     );
