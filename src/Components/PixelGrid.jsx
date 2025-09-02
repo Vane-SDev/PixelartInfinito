@@ -22,7 +22,7 @@ const COLOR_VALUES = {
     '100': { name: 'Morado', hex: '#9B5DE5' }
 };
 
-const WHATSAPP_NUMBER = '+5491123456789'; // Reemplaza con tu número real
+const WHATSAPP_NUMBER = '+5492645211880';
 
 const PixelGrid = ({ gridId, onPixelsColoredChange }) => {
     const initialGrid = () => Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill(COLORS.WHITE));
