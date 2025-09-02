@@ -50,7 +50,7 @@ function App() {
 
       <footer>
         <p>
-          Una creación para <a href="https://whatsapp.com/channel/0029Vb5TAwM1t90VXCepFp2D" target="_blank" rel="noopener noreferrer">Infinitamente Matemático</a>
+          Una creación de <a href="https://vswebdesign.online/"> Vs Web Design </a> para <a href="https://whatsapp.com/channel/0029Vb5TAwM1t90VXCepFp2D" target="_blank" rel="noopener noreferrer">Infinitamente Matemático</a>
         </p>
       </footer>
     </div>
