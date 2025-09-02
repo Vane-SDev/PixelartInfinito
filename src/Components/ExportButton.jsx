@@ -1,12 +1,10 @@
 // src/components/ExportButton.jsx
 import React, { useState } from 'react';
 import html2canvas from 'html2canvas';
-import { saveUser, getUserStats } from '../services/userStorage';
+import { saveEmojiToGallery } from '../services/galleryService'; // CAMBIO: Importamos desde el nuevo servicio
 import styles from './ExportButton.module.css';
 
-// No se usan estilos de módulo aquí, usa los globales de index.css
-const ExportButton = ({ elementIdToCapture, username, hasPixelsColored }) => {
-    const [stats, setStats] = useState(null);
+const ExportButton = ({ elementIdToCapture, username, hasPixelsColored, gridData, onEmojiSaved }) => {
     const [isProcessing, setIsProcessing] = useState(false);
 
     const handleExport = async () => {
@@ -16,32 +14,31 @@ const ExportButton = ({ elementIdToCapture, username, hasPixelsColored }) => {
         const element = document.getElementById(elementIdToCapture);
         if (element) {
             try {
-                // Si hay un usuario, lo guardamos
-                if (username && username.trim()) {
-                    await saveUser(username);
-                    const currentStats = getUserStats();
-                    setStats(currentStats);
-                }
+                await saveEmojiToGallery(username, gridData);
 
                 const canvas = await html2canvas(element, {
-                    backgroundColor: null, // Para fondo transparente si los pixeles apagados son transparentes
-                    scale: 2, // Aumenta la resolución de la imagen
-                    logging: true, // Para debug en consola
-                    useCORS: true // Si tienes imágenes externas, aunque aquí no aplica
+                    backgroundColor: null,
+                    scale: 2,
+                    logging: true,
+                    useCORS: true
                 });
 
-                const imageName = username ? `emoji_${username.replace('@', '')}.png` : 'mi_emoji_pixelart.png';
+                const imageName = username ? `emoji_${username.replace(/[^a-zA-Z0-9]/g, '')}.png` : 'mi_emoji_pixelart.png';
                 const link = document.createElement('a');
                 link.download = imageName;
                 link.href = canvas.toDataURL('image/png');
                 link.click();
                 
-                alert('¡Tu emoji se está descargando! Revísalo y luego envíamelo por DM o etiquétame en tus historias @infinitamente_matematico.');
+                alert('¡Tu emoji se ha guardado en la galería y se está descargando!');
+
             } catch (err) {
                 console.error("Error al procesar:", err);
                 alert("Hubo un error al procesar tu emoji. Por favor, intentá de nuevo.");
             } finally {
                 setIsProcessing(false);
+                if (onEmojiSaved) {
+                    onEmojiSaved();
+                }
             }
         } else {
             console.error("Elemento para capturar no encontrado:", elementIdToCapture);
@@ -57,17 +54,8 @@ const ExportButton = ({ elementIdToCapture, username, hasPixelsColored }) => {
                 className={`${styles.exportButton} ${isProcessing ? styles.processing : ''}`}
                 disabled={isProcessing || !hasPixelsColored}
             >
-                {isProcessing ? 'Procesando...' : '¡Crear y Descargar mi Emoji!'}
+                {isProcessing ? 'Procesando...' : '¡Guardar y Descargar mi Emoji!'}
             </button>
-            
-            {stats && (
-                <div className={`${styles.statsMessage} ${styles.fadeIn}`}>
-                    <p>¡Ya son {stats.totalUsers} artistas creando emojis! 🎨</p>
-                    {stats.todayUsers > 1 && (
-                        <p>Hoy {stats.todayUsers} personas crearon su emoji</p>
-                    )}
-                </div>
-            )}
         </div>
     );
 };

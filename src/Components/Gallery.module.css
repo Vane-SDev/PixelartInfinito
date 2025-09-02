@@ -1,0 +1,63 @@
+/* src/Components/Gallery.module.css */
+.galleryWrapper {
+    width: 100%;
+    max-width: 800px;
+    margin: 3rem auto 0;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.galleryWrapper h2 {
+    color: var(--primary-color, #5A1876);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+.galleryContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1.5rem;
+}
+
+.galleryItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 8px;
+    background-color: var(--background-color, #F7F9FC);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.galleryItem:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.galleryGrid {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Mantiene el grid cuadrado */
+    border: 1px solid #eee;
+}
+
+.galleryPixel {
+    width: 100%;
+    padding-bottom: 100%; /* Truco para mantener los píxeles cuadrados */
+    background-color: #FFFFFF;
+}
+
+.galleryUsername {
+    font-size: 0.8rem;
+    color: var(--text-color, #2C3E50);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px;
+}

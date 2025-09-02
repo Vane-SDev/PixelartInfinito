@@ -3,17 +3,29 @@ import React, { useState } from 'react';
 import PixelGrid from './Components/PixelGrid';
 import UserInput from './Components/UserInput';
 import ExportButton from './Components/ExportButton';
+import Gallery from './Components/Gallery';
 import logo from './assets/Recurso 5@4x.png';
 import './App.css';
 import './index.css';
 
+const GRID_SIZE = 16;
+const INITIAL_COLOR = '000'; 
+
 function App() {
   const [username, setUsername] = useState('');
   const [hasPixelsColored, setHasPixelsColored] = useState(false);
+  const [grid, setGrid] = useState(() => 
+    Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill(INITIAL_COLOR))
+  );
+  const [galleryUpdateTrigger, setGalleryUpdateTrigger] = useState(0);
   const GRID_ELEMENT_ID = "pixelArtGridToCapture";
 
   const handlePixelsColoredChange = (hasColored) => {
     setHasPixelsColored(hasColored);
+  };
+
+  const handleEmojiSaved = () => {
+    setGalleryUpdateTrigger(count => count + 1); 
   };
 
   return (
@@ -35,6 +47,8 @@ function App() {
         <PixelGrid 
           gridId={GRID_ELEMENT_ID} 
           onPixelsColoredChange={handlePixelsColoredChange}
+          grid={grid}
+          setGrid={setGrid}
         />
         <UserInput
           value={username}
@@ -45,7 +59,10 @@ function App() {
           elementIdToCapture={GRID_ELEMENT_ID} 
           username={username}
           hasPixelsColored={hasPixelsColored}
+          gridData={grid}
+          onEmojiSaved={handleEmojiSaved}
         />
+        <Gallery updateTrigger={galleryUpdateTrigger} />
       </main>
 
       <footer>
