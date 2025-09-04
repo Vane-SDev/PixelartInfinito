@@ -7,7 +7,7 @@ import { COLORS, COLOR_VALUES } from '../constants'; // <-- NUEVA LÍNEA DE IMPO
 // Las constantes que solo usa este componente se pueden quedar aquí
 const GRID_SIZE = 16;
 
-const WHATSAPP_NUMBER = '+5491123456789'; // Reemplaza con tu número real
+const WHATSAPP_NUMBER = '+5492645211880'; // Reemplaza con tu número real
 
 const PixelGrid = ({ grid, setGrid, gridId, onPixelsColoredChange }) => {
     const [currentColor, setCurrentColor] = useState(COLORS.BLACK);
